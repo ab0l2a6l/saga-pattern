@@ -1,6 +1,6 @@
 package org.example.service;
 
-public interface PaymentService {
+public interface WithdrawService {
 
-    String refundPayment(Long orderId, String amount);
+    String refundWithdraw(Long depositId, String amount);
 }

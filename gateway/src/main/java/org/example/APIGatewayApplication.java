@@ -22,27 +22,10 @@ public class APIGatewayApplication {
                 .routes()
                 .route(r ->
                         r.path("/api/**")
-                                .filters(gatewayFilterSpec -> gatewayFilterSpec
-                                        .rewritePath("/api/v1/product/(?<remaining>.*)","/api/v1/product/${remaining}")
-                                        .addRequestHeader("my_response_header", String.valueOf(LocalTime.now()))
-                                        .circuitBreaker(config -> config
-                                                .setName("apiGateWayCircuitBreaker")
-                                                .setFallbackUri("forward:/circuitBreaker/fallback")
-                                        )
-                                )
-
-                                .uri("lb://PRODUCT")
+                                .uri("lb://DEPOSIT")
                 ).route(predicateSpec -> predicateSpec
-                        .path("/api/v1/coupon/**")
-                        .filters(gatewayFilterSpec -> gatewayFilterSpec
-                                .rewritePath("/api/v1/coupons/(?<remaining>.*)","/api/v1/coupons/${remaining}")
-                                .retry(retryConfig -> retryConfig
-                                        .setRetries(3)
-                                        .setMethods(HttpMethod.GET)
-                                        .setBackoff(Duration.ofMillis(100), Duration.ofMillis(1000), 2 , true)
-                                )
-                        )
-                        .uri("lb://DISCOUNT")
+                        .path("/api/v1/withdraw/**")
+                        .uri("lb://WITHDRAW")
                 ).build();
     }
 }

@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class PaymentResponse implements Serializable {
+public class WithdrawResponse implements Serializable {
     private boolean isSuccess;
     private String amount;
-    private Long orderId;
+    private Long depositId;
 }

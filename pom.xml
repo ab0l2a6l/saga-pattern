@@ -5,21 +5,94 @@
   <groupId>org.example</groupId>
   <artifactId>saga-pattern</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <name>saga-pattern</name>
   <url>http://maven.apache.org</url>
+  <modules>
+    <module>eureka</module>
+    <module>gateway</module>
+    <module>deposit</module>
+    <module>withdraw</module>
+  </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.boot.version>3.3.1</spring.boot.version>
+    <spring.cloud.version>2023.0.3</spring.cloud.version>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>${spring.boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring.cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.modelmapper</groupId>
+        <artifactId>modelmapper</artifactId>
+        <version>3.2.0</version>
+      </dependency>
+      <!--            <dependency>-->
+      <!--                <groupId>org.springdoc</groupId>-->
+      <!--                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>-->
+      <!--                <version>2.0.4</version>-->
+      <!--            </dependency>-->
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.32</version>
     </dependency>
-  </dependencies>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+   </dependencies>
+
+
+
+  <build>
+    <pluginManagement>
+      <plugins>
+
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <target>21</target>
+          <source>21</source>
+          <parameters>true</parameters>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

@@ -1,4 +1,4 @@
-package me.sina.micro.saga.order.model;
+package org.example.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Deposit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

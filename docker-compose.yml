@@ -1,5 +1,5 @@
 services:
-  db:
+  mysql:
     image: mysql
     container_name: mysqlDB
     ports:
@@ -9,9 +9,9 @@ services:
     volumes:
       - my-db:/var/lib/mysql
     environment:
-      MYSQL_USER: Sina
-      MYSQL_PASSWORD: abcd1234
-      MYSQL_ROOT_PASSWORD: Sp@123456789
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Am@0311865186
+      MYSQL_ROOT_PASSWORD: Am@0311865186
     deploy:
       resources:
         limits:
@@ -70,39 +70,35 @@ services:
         limits:
           memory: 512m
 
-  order:
-    build: Order
+  deposit:
+    build: deposit
     ports:
       - "8080:8080"
-    container_name: order
+    container_name: deposit
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
       - saga
-    depends_on: [ db, eureka ]
+    depends_on: [ mysql, eureka ]
     deploy:
       resources:
         limits:
           memory: 512m
 
-  payment:
-    build: Payment
+  withdraw:
+    build: withdraw
     ports:
-      - "8081:8081"
-    container_name: payment
+      - "8082:8082"
+    container_name: withdraw
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
       - saga
-    depends_on: [ db, eureka ]
+    depends_on: [ mysql, eureka ]
     deploy:
       resources:
         limits:
           memory: 512m
-
-volumes:
-  my-db:
-
 networks:
   default:
   saga:

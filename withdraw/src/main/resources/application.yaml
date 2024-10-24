@@ -3,11 +3,11 @@ server:
 
 spring:
   application:
-    name: payment
+    name: withdraw
   datasource:
-    url: jdbc:mysql://localhost:3306/payment
-    username: Sina
-    password: Sp@12345678
+    url: jdbc:mysql://localhost:3306/abolfazl
+    username: root
+    password: Am@0311865186
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect

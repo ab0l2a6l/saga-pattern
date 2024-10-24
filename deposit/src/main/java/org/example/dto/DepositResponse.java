@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class OrderResponse implements Serializable {
-    private Long orderId;
+public class DepositResponse implements Serializable {
+    private Long depositId;
     private String amount;
     private String productName;
 }

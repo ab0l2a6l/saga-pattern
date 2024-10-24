@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class PaymentRequest implements Serializable {
-    private Long orderId;
+public class WithdrawRequest implements Serializable {
+    private Long depositId;
     private String amount;
     private String productName;
 }

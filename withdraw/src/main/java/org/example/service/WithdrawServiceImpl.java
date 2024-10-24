@@ -2,52 +2,52 @@ package org.example.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.sina.micro.saga.payment.dto.PaymentRequest;
-import me.sina.micro.saga.payment.dto.PaymentResponse;
-import me.sina.micro.saga.payment.model.Payment;
-import me.sina.micro.saga.payment.repository.PaymentRepository;
+import org.example.dto.WithdrawRequest;
+import org.example.dto.WithdrawResponse;
+import org.example.model.Withdraw;
+import org.example.repository.WithdrawRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PaymentServiceImpl implements PaymentService {
+public class WithdrawServiceImpl implements WithdrawService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final PaymentRepository paymentRepository;
+    private final WithdrawRepository withdrawRepository;
 
     @Autowired
-    public PaymentServiceImpl(KafkaTemplate<String, String> kafkaTemplate, PaymentRepository paymentRepository) {
+    public WithdrawServiceImpl(KafkaTemplate<String, String> kafkaTemplate, WithdrawRepository withdrawRepository) {
         this.kafkaTemplate = kafkaTemplate;
-        this.paymentRepository = paymentRepository;
+        this.withdrawRepository = withdrawRepository;
     }
 
-    @KafkaListener(topics = "payment-request-topic", groupId = "saga-group", containerFactory = "paymentListener")
-    public void processPayment(String request) {
+    @KafkaListener(topics = "withdraw-request-topic", groupId = "saga-group", containerFactory = "withdrawListener")
+    public void refundWithdraw(String request) {
         Gson gson = new GsonBuilder().create();
-        PaymentRequest paymentRequest = gson.fromJson(request, PaymentRequest.class);
-        Payment payment = new Payment();
-        PaymentResponse paymentResponse = new PaymentResponse();
-        if (paymentRequest.getProductName().isEmpty()) {
-            paymentResponse.setOrderId(paymentRequest.getOrderId());
-            paymentResponse.setAmount(paymentRequest.getAmount());
-            paymentResponse.setSuccess(Boolean.FALSE);
+        WithdrawRequest withdrawRequest = gson.fromJson(request, WithdrawRequest.class);
+        Withdraw withdraw = new Withdraw();
+        WithdrawResponse withdrawResponse = new WithdrawResponse();
+        if (withdrawRequest.getProductName().isEmpty()) {
+            withdrawResponse.setDepositId(withdrawRequest.getDepositId());
+            withdrawResponse.setAmount(withdrawRequest.getAmount());
+            withdrawResponse.setSuccess(Boolean.FALSE);
         } else {
-            payment.setAmount(paymentRequest.getAmount());
-            payment.setSuccess(Boolean.TRUE);
-            payment.setProductName(paymentRequest.getProductName());
-            paymentRepository.save(payment);
-            paymentResponse.setOrderId(paymentRequest.getOrderId());
-            paymentResponse.setAmount(paymentRequest.getAmount());
-            paymentResponse.setSuccess(Boolean.TRUE);
+            withdraw.setAmount(withdrawRequest.getAmount());
+            withdraw.setSuccess(Boolean.TRUE);
+            withdraw.setProductName(withdrawRequest.getProductName());
+            withdrawRepository.save(withdraw);
+            withdrawResponse.setDepositId(withdrawRequest.getDepositId());
+            withdrawResponse.setAmount(withdrawRequest.getAmount());
+            withdrawResponse.setSuccess(Boolean.TRUE);
         }
-        String response = gson.toJson(paymentResponse, paymentResponse.getClass());
+        String response = gson.toJson(withdrawResponse, withdrawResponse.getClass());
         kafkaTemplate.send("payment-response-topic", response);
     }
 
     @Override
-    public String refundPayment(Long orderId, String amount) {
-        return "refund payment success with order id " + orderId + " and amount " + amount;
+    public String refundWithdraw(Long depositId, String amount) {
+        return "refund withdraw success with deposit id " + depositId + " and amount " + amount;
     }
 }

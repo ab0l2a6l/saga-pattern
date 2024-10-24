@@ -1,4 +1,4 @@
-FROM ubuntu:latest
-LABEL authors="Panta Rayan"
-
-ENTRYPOINT ["top", "-b"]
+FROM amazoncorretto:21
+ADD target/eureka.jar eureka.jar
+EXPOSE 8761
+ENTRYPOINT ["java","-jar","eureka.jar"]

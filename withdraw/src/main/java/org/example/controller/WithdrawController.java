@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import me.sina.micro.saga.payment.service.PaymentService;
+import org.example.service.WithdrawService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/payment")
-public class PaymentController {
+public class WithdrawController {
 
-    private final PaymentService paymentService;
+    private final WithdrawService withdrawService;
 
     @Autowired
-    public PaymentController(PaymentService paymentService) {
-        this.paymentService = paymentService;
+    public WithdrawController(WithdrawService withdrawService) {
+        this.withdrawService = withdrawService;
     }
 
     @PostMapping("/refund")
-    public String refund(@RequestParam Long orderId, @RequestParam String amount) {
-       return paymentService.refundPayment(orderId, amount);
+    public String refund(@RequestParam Long depositId, @RequestParam String amount) {
+       return withdrawService.refundWithdraw(depositId, amount);
     }
 }

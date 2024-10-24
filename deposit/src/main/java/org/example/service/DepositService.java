@@ -1,6 +1,9 @@
 package org.example.service;
 
 
-public interface OrderService {
-    void createOrder(OrderRequest orderRequest);
+import org.example.dto.DepositRequest;
+
+public interface DepositService {
+
+    void createDeposit(DepositRequest depositRequest);
 }
